@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
 import Main from './pages/main/main';
 import MyHits from './pages/my-hits/my-hits';
 
@@ -16,9 +16,7 @@ export default function App(): JSX.Element {
           component={Main}
           options={{
             title: 'Главная',
-            headerStyle: { backgroundColor: 'red', height: 80 },
-            headerTitleAlign: 'center',
-            headerTitleStyle: { color: 'white' },
+            headerShown: false,
           }}
         />
 
@@ -27,9 +25,16 @@ export default function App(): JSX.Element {
           component={MyHits}
           options={{
             title: 'Мои хиты',
-            headerStyle: { backgroundColor: 'red', height: 80 },
+            cardShadowEnabled: true,
+            animationEnabled: true,
+            headerStyle: {
+              backgroundColor: 'black',
+              elevation: 1,
+              height: 35,
+            },
             headerTitleAlign: 'center',
-            headerTitleStyle: { color: 'white' },
+            headerTitleStyle: { color: 'white', fontFamily: 'mr_ReaverockG' },
+            headerTintColor: 'white',
           }}
         />
       </Stack.Navigator>
