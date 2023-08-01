@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import { Dimensions } from 'react-native';
 
 import {
   Text,
@@ -13,14 +14,14 @@ import {
 } from 'react-native';
 
 import none from '../../assets/armor-material/none.jpg';
-import leather from '../../assets/armor-material/leather.jpg';
-import chainmail from '../../assets/armor-material/chainmail.jpg';
-import lamelar from '../../assets/armor-material/lamelar.jpg';
-import briga from '../../assets/armor-material/briga.jpg';
 import steel from '../../assets/armor-material/steel.jpg';
 
 import heart from '../../assets/health/heart.png';
 import shield from '../../assets/health/shield.png';
+import scroll from '../../assets/main-menu-icons/scroll.png';
+import flag from '../../assets/hit_icons/flag.png';
+import flagY from '../../assets/hit_icons/flagY.png';
+import clearIcon from '../../assets/hit_icons/clearIcon.png';
 
 import { ArmorItem, Armor } from './type';
 import { resolvePath } from '../../utils/resolve-path';
@@ -28,53 +29,10 @@ import WoodBG from '../../utils/woodBG';
 import ItemContainer from './item-container';
 
 import { myHitsStyle } from './my-hits-style';
+import { armor, defaultArmor } from './defaults';
+import { breakPoints } from '../../utils/break-points';
 
-const armor: ArmorItem[] = [
-  {
-    value: { type: 'no_armor', armorClass: 0 },
-    label: 'Нет брони',
-    img: resolvePath(none),
-  },
-  {
-    value: { type: 'leather', armorClass: 0.5 },
-    label: 'Кожанка',
-    img: resolvePath(leather),
-  },
-  {
-    value: { type: 'chain', armorClass: 0.75 },
-    label: 'Кольчуга',
-    img: resolvePath(chainmail),
-  },
-  {
-    value: { type: 'brigant', armorClass: 1 },
-    label: 'Бригантина',
-    img: resolvePath(briga),
-  },
-  {
-    value: { type: 'lamelar', armorClass: 1 },
-    label: 'Ламяляр',
-    img: resolvePath(lamelar),
-  },
-  {
-    value: { type: 'plate', armorClass: 1.25 },
-    label: 'Латы',
-    img: resolvePath(steel),
-  },
-];
-
-const defaultArmor: Armor[] = [
-  { name: 'Голова', limb: 'head', hits: 0, img: resolvePath(none) },
-  { name: 'Л. Плечо', limb: 'leftShoulder', hits: 0, img: resolvePath(none) },
-  { name: 'Тело', limb: 'torso', hits: 0, img: resolvePath(none) },
-  { name: 'П. Плечо', limb: 'rightShoulder', hits: 0, img: resolvePath(none) },
-  { name: 'Л. Рука', limb: 'leftArm', hits: 0, img: resolvePath(none) },
-  { name: 'Спина', limb: 'back', hits: 0, img: resolvePath(none) },
-  { name: 'П. Рука', limb: 'rightArm', hits: 0, img: resolvePath(none) },
-  { name: 'Л. Бедро', limb: 'leftHip', hits: 0, img: resolvePath(none) },
-  { name: 'П. Бедро', limb: 'rightHip', hits: 0, img: resolvePath(none) },
-  { name: 'Л. Нога', limb: 'leftLeg', hits: 0, img: resolvePath(none) },
-  { name: 'П. Нога', limb: 'rightLeg', hits: 0, img: resolvePath(none) },
-];
+const windowWidth = Dimensions.get('window').width;
 
 export default function MyHits(): JSX.Element {
   const [isVisibleModal, setIsVisibleModal] = React.useState<boolean>(false);
@@ -87,7 +45,7 @@ export default function MyHits(): JSX.Element {
 
   React.useEffect(() => {
     const totalHits = currentArmor.reduce((acc, p) => acc + p.hits, 1);
-    setHits(hasHelmet ? totalHits : 1);
+    setHits(hasHelmet ? Math.round(totalHits) : 1);
   }, [hits, currentArmor, hasHelmet, hasBack]);
 
   const renderHealth = React.useMemo(() => {
@@ -102,14 +60,14 @@ export default function MyHits(): JSX.Element {
               <Image
                 source={{ uri: p }}
                 key={p + i}
-                style={{ width: 20, height: 20 }}
+                style={{ width: 30, height: 30 }}
               />
             );
           })
         ) : (
           <Image
             source={{ uri: shields[0] }}
-            style={{ width: 20, height: 20 }}
+            style={{ width: 30, height: 30 }}
           />
         )}
       </View>
@@ -277,52 +235,83 @@ export default function MyHits(): JSX.Element {
       <View style={myHitsStyle.container}>
         {isVisibleModal && renderModal}
 
-        <Text style={style.hitText}>{hits}</Text>
-        {renderHealth}
+        <ImageBackground
+          source={{ uri: resolvePath(scroll) }}
+          imageStyle={{ width: '100%', marginTop: -20, height: 60 }}
+          style={{
+            height: 30,
+            display: 'flex',
+            alignSelf: 'stretch',
+            marginTop: 5,
+          }}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}>
+            <ImageBackground
+              source={{ uri: resolvePath(flag) }}
+              imageStyle={{ width: 50, height: 80, marginTop: -10 }}
+              style={{ width: 50 }}>
+              <Text style={style.hitText}>{hits}</Text>
+            </ImageBackground>
+
+            {renderHealth}
+
+            <ImageBackground
+              source={{ uri: resolvePath(flagY) }}
+              imageStyle={{ width: 50, height: 80, marginTop: -10 }}
+              style={{ width: 50 }}>
+              <TouchableOpacity onPress={() => handleReset()}>
+                <Image
+                  source={{
+                    uri: resolvePath(clearIcon),
+                    height: 30,
+                    width: 30,
+                  }}
+                  style={{ alignSelf: 'center', marginTop: 10, opacity: 0.5 }}
+                />
+              </TouchableOpacity>
+            </ImageBackground>
+          </View>
+        </ImageBackground>
 
         <TouchableOpacity
           onPress={() => handleArmorChange(currentArmor[0].limb)}
           style={style.item}>
-          <ImageBackground
-            source={{ uri: resolvePath(hasHelmet ? steel : none) }}
-            resizeMode="stretch"
-            imageStyle={style.itemImageBackground}>
-            <ItemContainer name={currentArmor[0].name} />
-          </ImageBackground>
+          <ItemContainer
+            name={currentArmor[0].name}
+            img={resolvePath(hasHelmet ? steel : none)}
+          />
         </TouchableOpacity>
 
         <View style={style.body}>
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[1].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[1].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[1].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[1].name}
+              img={currentArmor[1].img}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[2].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[2].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[2].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[2].name}
+              img={currentArmor[2].img}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[3].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[3].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[3].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[3].name}
+              img={currentArmor[3].img}
+            />
           </TouchableOpacity>
         </View>
 
@@ -330,36 +319,28 @@ export default function MyHits(): JSX.Element {
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[4].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[4].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[4].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[4].name}
+              img={currentArmor[4].img}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[5].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{
-                uri: hasBack ? currentArmor[2].img : resolvePath(none),
-              }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[5].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[5].name}
+              img={hasBack ? currentArmor[2].img : resolvePath(none)}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[6].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[6].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[6].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[6].name}
+              img={currentArmor[6].img}
+            />
           </TouchableOpacity>
         </View>
 
@@ -367,23 +348,19 @@ export default function MyHits(): JSX.Element {
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[7].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[7].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[7].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[7].name}
+              img={currentArmor[7].img}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[8].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[8].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[8].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[8].name}
+              img={currentArmor[8].img}
+            />
           </TouchableOpacity>
         </View>
 
@@ -391,27 +368,21 @@ export default function MyHits(): JSX.Element {
           <TouchableOpacity
             onPress={() => handleArmorChange(currentArmor[9].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[9].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[9].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[9].name}
+              img={currentArmor[9].img}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => handleArmorChange(defaultArmor[10].limb)}
             style={style.item}>
-            <ImageBackground
-              source={{ uri: currentArmor[10].img }}
-              resizeMode="stretch"
-              imageStyle={style.itemImageBackground}>
-              <ItemContainer name={currentArmor[10].name} />
-            </ImageBackground>
+            <ItemContainer
+              name={currentArmor[10].name}
+              img={currentArmor[10].img}
+            />
           </TouchableOpacity>
         </View>
-
-        <Button title="Сброс" onPress={() => handleReset()} />
       </View>
     </WoodBG>
   );
@@ -426,12 +397,12 @@ const style = StyleSheet.create({
     flexDirection: 'row',
   },
   item: {
-    width: 65,
-    height: 65,
-    margin: 7.5,
-  },
-  itemImageBackground: {
-    minHeight: 65,
+    width: windowWidth >= breakPoints.xs ? 90 : 65,
+    height: windowWidth >= breakPoints.xs ? 90 : 65,
+    marginLeft: '5%',
+    marginRight: '5%',
+    marginTop: 10,
+    marginBottom: 10,
   },
   itemsListImageBackground: {
     minHeight: 65,
@@ -476,11 +447,15 @@ const style = StyleSheet.create({
     margin: 10,
   },
   healthRow: {
-    display: 'flex',
+    width: '50%',
     flexDirection: 'row',
     justifyContent: 'center',
   },
   hitText: {
     color: 'white',
+    textAlign: 'center',
+    fontSize: 40,
+    height: 60,
+    fontFamily: 'mr_ReaverockG',
   },
 });
