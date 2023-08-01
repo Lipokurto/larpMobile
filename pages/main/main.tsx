@@ -4,16 +4,19 @@ import {
   FlatList,
   TouchableOpacity,
   Text,
-  View,
-  Image,
   StyleSheet,
+  ImageBackground,
+  Image,
+  View,
 } from 'react-native';
 
 import barbute from '../../assets/main-menu-icons/barbute.png';
 import book from '../../assets/main-menu-icons/book.png';
+import scroll from '../../assets/main-menu-icons/scroll.png';
+import logo from '../../assets/logo/logo_EMPTY_BACK_2024.png';
 
-import { mainStyle } from './main-style';
 import { resolvePath } from '../../utils/resolve-path';
+import WoodBG from '../../utils/woodBG';
 
 type Service = {
   name: string;
@@ -39,33 +42,35 @@ const service: Service[] = [
 
 export default function Main({ navigation }: any): JSX.Element {
   return (
-    <View style={mainStyle.container}>
-      <Text style={[mainStyle.text, style.header]}>Темные века</Text>
-
-      <FlatList
-        data={service}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MyHits', item)}
-              style={style.item}>
-              <Image
-                source={{
-                  width: 50,
-                  height: 50,
-                  uri: item.img,
-                }}
-              />
-
-              <View style={style.text}>
-                <Text style={style.title}>{item.name}</Text>
-                <Text style={style.description}>{item.description}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </View>
+    <WoodBG>
+      <View>
+        <Image
+          style={style.logo}
+          source={{
+            height: 200,
+            width: 200,
+            uri: resolvePath(logo),
+          }}
+        />
+        <FlatList
+          data={service}
+          renderItem={({ item }) => {
+            return (
+              <ImageBackground
+                source={{ uri: resolvePath(scroll) }}
+                resizeMode="stretch">
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('MyHits', item)}
+                  style={style.item}>
+                  <Text style={style.title}>{item.name}</Text>
+                  <Text style={style.description}>{item.description}</Text>
+                </TouchableOpacity>
+              </ImageBackground>
+            );
+          }}
+        />
+      </View>
+    </WoodBG>
   );
 }
 
@@ -74,27 +79,29 @@ const style = StyleSheet.create({
     marginBottom: 30,
   },
   item: {
-    display: 'flex',
-    flexDirection: 'row',
     marginBottom: 20,
-    alignItems: 'center',
+    justifyContent: 'center',
     padding: 10,
-    borderColor: 'black',
-    borderWidth: 3,
-    borderRadius: 10,
-  },
-  text: {
-    alignItems: 'flex-start',
-    marginLeft: 10,
   },
   title: {
-    fontWeight: '500',
-    fontSize: 22,
+    fontSize: 30,
     textAlign: 'center',
+    fontFamily: 'mr_ReaverockG',
+    color: 'black',
+
+    textShadowColor: 'white',
+    textShadowOffset: { width: 0, height: 3 },
+    textShadowRadius: 3,
   },
   description: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: 'center',
     marginTop: 5,
+    fontFamily: 'mr_ReaverockG',
+  },
+  logo: {
+    alignSelf: 'center',
+    margin: 10,
+    marginTop: 30,
   },
 });
