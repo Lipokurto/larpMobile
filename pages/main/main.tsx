@@ -10,8 +10,6 @@ import {
   View,
 } from 'react-native';
 
-import barbute from '../../assets/main-menu-icons/barbute.png';
-import book from '../../assets/main-menu-icons/book.png';
 import scroll from '../../assets/main-menu-icons/scroll.png';
 import logo from '../../assets/logo/logo_EMPTY_BACK_2024.png';
 
@@ -22,7 +20,6 @@ type Service = {
   name: string;
   description: string;
   key: number;
-  img: string;
 };
 
 const service: Service[] = [
@@ -30,13 +27,11 @@ const service: Service[] = [
     name: 'Мои хиты',
     description: 'Рассчитай свои хиты',
     key: 1,
-    img: resolvePath(barbute),
   },
   {
     name: 'Правила',
     description: 'Полный текст правил',
     key: 2,
-    img: resolvePath(book),
   },
 ];
 
@@ -88,10 +83,6 @@ const style = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'mr_ReaverockG',
     color: 'black',
-
-    textShadowColor: 'white',
-    textShadowOffset: { width: 0, height: 3 },
-    textShadowRadius: 3,
   },
   description: {
     fontSize: 20,
