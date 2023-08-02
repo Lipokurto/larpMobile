@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "darkApk03.app"
-               BlueprintName = "darkApk03"
-               ReferencedContainer = "container:darkApk03.xcodeproj">
+               BuildableName = "MyDarkLARP.app"
+               BlueprintName = "MyDarkLARP"
+               ReferencedContainer = "container:MyDarkLARP.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "darkApk03Tests.xctest"
-               BlueprintName = "darkApk03Tests"
-               ReferencedContainer = "container:darkApk03.xcodeproj">
+               BuildableName = "MyDarkLARPTests.xctest"
+               BlueprintName = "MyDarkLARPTests"
+               ReferencedContainer = "container:MyDarkLARP.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "darkApk03.app"
-            BlueprintName = "darkApk03"
-            ReferencedContainer = "container:darkApk03.xcodeproj">
+            BuildableName = "MyDarkLARP.app"
+            BlueprintName = "MyDarkLARP"
+            ReferencedContainer = "container:MyDarkLARP.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "darkApk03.app"
-            BlueprintName = "darkApk03"
-            ReferencedContainer = "container:darkApk03.xcodeproj">
+            BuildableName = "MyDarkLARP.app"
+            BlueprintName = "MyDarkLARP"
+            ReferencedContainer = "container:MyDarkLARP.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
