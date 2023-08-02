@@ -28,11 +28,11 @@ const service: Service[] = [
     description: 'Рассчитай свои хиты',
     key: 1,
   },
-  {
-    name: 'Правила',
-    description: 'Полный текст правил',
-    key: 2,
-  },
+  // {
+  //   name: 'Правила',
+  //   description: 'Полный текст правил',
+  //   key: 2,
+  // },
 ];
 
 export default function Main({ navigation }: any): JSX.Element {
@@ -82,7 +82,7 @@ const style = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     fontFamily: 'mr_ReaverockG',
-    color: 'black',
+    color: '#000000',
   },
   description: {
     fontSize: 20,

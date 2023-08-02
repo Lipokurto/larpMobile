@@ -28,13 +28,13 @@ export default function App(): JSX.Element {
             cardShadowEnabled: true,
             animationEnabled: true,
             headerStyle: {
-              backgroundColor: 'black',
+              backgroundColor: '#000000',
               elevation: 1,
               height: 35,
             },
             headerTitleAlign: 'center',
-            headerTitleStyle: { color: 'white', fontFamily: 'mr_ReaverockG' },
-            headerTintColor: 'white',
+            headerTitleStyle: { color: '#ffffff', fontFamily: 'mr_ReaverockG' },
+            headerTintColor: '#ffffff',
           }}
         />
       </Stack.Navigator>

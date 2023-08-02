@@ -1,20 +1,17 @@
 import React from 'react';
-import { Text, ImageBackground, StyleSheet, Dimensions } from 'react-native';
+import { Text, ImageBackground, StyleSheet } from 'react-native';
 
-import metalRing from '../../assets/hit_icons/bronzeRing.png';
+import metalRing from '../../assets/hit_icons/metalRing.png';
 import labelPlate from '../../assets/hit_icons/labelPlate.png';
 
 import { resolvePath } from '../../utils/resolve-path';
-import { breakPoints } from '../../utils/break-points';
 
 type Props = {
   name: string;
   img: string;
 };
 
-const windowWidth = Dimensions.get('window').width;
-
-export default function ItemContainer(props: Props): JSX.Element {
+export default function ItemListContainer(props: Props): JSX.Element {
   return (
     <ImageBackground
       source={{ uri: props.img }}
@@ -43,20 +40,21 @@ const style = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
     fontFamily: 'mr_ReaverockG',
+    marginLeft: -8,
   },
   ring: {
-    height: windowWidth >= breakPoints.xs ? 100 : 80,
-    width: windowWidth >= breakPoints.xs ? 100 : 80,
+    height: 100,
+    width: 100,
     marginTop: -6,
-    marginLeft: windowWidth >= breakPoints.xs ? -5 : -7,
+    marginLeft: -5,
   },
   label: {
     height: 30,
-    width: windowWidth >= breakPoints.xs ? 100 : 80,
-    marginLeft: windowWidth >= breakPoints.xs ? -5 : -7.5,
+    width: 100,
+    marginLeft: -6,
   },
   itemImageBackground: {
-    minHeight: windowWidth >= breakPoints.xs ? 80 : 65,
-    borderRadius: 30,
+    height: 80,
+    width: 85,
   },
 });
