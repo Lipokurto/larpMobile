@@ -10,7 +10,7 @@ export const myHitsStyle = StyleSheet.create({
     fontSize: 42,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: 'white',
+    color: '#ffffff',
     marginBottom: 20,
   },
 });

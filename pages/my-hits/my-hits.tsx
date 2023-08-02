@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Modal,
-  Button,
   ImageBackground,
   Image,
 } from 'react-native';
@@ -21,6 +20,7 @@ import shield from '../../assets/health/shield.png';
 import scroll from '../../assets/main-menu-icons/scroll.png';
 import flag from '../../assets/hit_icons/flag.png';
 import flagY from '../../assets/hit_icons/flagY.png';
+import flagB from '../../assets/hit_icons/flagB.png';
 import clearIcon from '../../assets/hit_icons/clearIcon.png';
 
 import { ArmorItem, Armor } from './type';
@@ -31,6 +31,8 @@ import ItemContainer from './item-container';
 import { myHitsStyle } from './my-hits-style';
 import { armor, defaultArmor } from './defaults';
 import { breakPoints } from '../../utils/break-points';
+import PaperBG from '../../utils/paperBG';
+import ItemListContainer from './item-list-container';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -152,45 +154,47 @@ export default function MyHits(): JSX.Element {
     [currentArmor],
   );
 
+  const renderAskButton = React.useCallback(
+    (answer: string) => {
+      return (
+        <ImageBackground
+          source={{ uri: resolvePath(flagB) }}
+          imageStyle={{
+            width: 60,
+            height: 80,
+            marginLeft: -5,
+            marginTop: -5,
+          }}
+          resizeMode="stretch"
+          style={{ width: 50 }}>
+          <TouchableOpacity
+            onPress={() => helmBackChange(currentLimb, answer === 'ДА')}
+            style={{ height: 60 }}>
+            <Text style={style.askButtonText}>{answer}</Text>
+          </TouchableOpacity>
+        </ImageBackground>
+      );
+    },
+    [currentLimb, helmBackChange],
+  );
+
   const modalInternals = React.useMemo(() => {
     if (currentLimb === 'head') {
       return (
-        <View style={{ backgroundColor: 'wheat' }}>
-          <Text style={style.modalText}>Вы хотите одеть шлем?</Text>
+        <View style={style.modalButtons}>
+          {renderAskButton('ДА')}
 
-          <View style={style.modalButtons}>
-            <Button
-              onPress={() => helmBackChange(currentLimb, true)}
-              title="Да!"
-            />
-
-            <Button
-              onPress={() => helmBackChange(currentLimb, false)}
-              title="Нет"
-            />
-          </View>
+          {renderAskButton('НЕТ')}
         </View>
       );
     }
 
     if (currentLimb === 'back') {
       return (
-        <View style={{ backgroundColor: 'wheat' }}>
-          <Text style={style.modalText}>
-            У вашего доспеха есть броня на спине?
-          </Text>
+        <View style={style.modalButtons}>
+          {renderAskButton('ДА')}
 
-          <View style={style.modalButtons}>
-            <Button
-              onPress={() => helmBackChange(currentLimb, true)}
-              title="Да"
-            />
-
-            <Button
-              onPress={() => helmBackChange(currentLimb, false)}
-              title="Нет"
-            />
-          </View>
+          {renderAskButton('НЕТ')}
         </View>
       );
     }
@@ -203,32 +207,48 @@ export default function MyHits(): JSX.Element {
               <TouchableOpacity
                 onPress={() => handleSetArmor(p)}
                 style={style.itemList}>
-                <ImageBackground
-                  source={{ uri: p.img }}
-                  resizeMode="stretch"
-                  imageStyle={style.itemsListImageBackground}>
-                  <Text style={style.listItemText}>{p.label}</Text>
-                </ImageBackground>
+                <ItemListContainer name={p.label} img={p.img} />
               </TouchableOpacity>
             </View>
           );
         })}
       </View>
     );
-  }, [currentLimb, helmBackChange, handleSetArmor]);
+  }, [currentLimb, renderAskButton, handleSetArmor]);
+
+  const listText = React.useMemo(() => {
+    if (currentLimb === 'head') {
+      return 'Одеть шлем?';
+    }
+
+    if (currentLimb === 'back') {
+      return 'Спина закрыта доспехом?';
+    }
+
+    return currentArmor.find(p => p.limb === currentLimb)?.name;
+  }, [currentArmor, currentLimb]);
 
   const renderModal = React.useMemo(() => {
     return (
       <Modal visible={isVisibleModal} animationType="slide" transparent>
-        {modalInternals}
+        <PaperBG>
+          <View>
+            <ImageBackground
+              source={{ uri: resolvePath(scroll) }}
+              imageStyle={{
+                height: 80,
+                marginTop: -30,
+              }}
+              style={style.descTextModal}>
+              <Text style={style.listText}>{listText}</Text>
+            </ImageBackground>
 
-        <Button
-          onPress={() => setIsVisibleModal(!isVisibleModal)}
-          title="Закрыть"
-        />
+            {modalInternals}
+          </View>
+        </PaperBG>
       </Modal>
     );
-  }, [isVisibleModal, modalInternals]);
+  }, [isVisibleModal, listText, modalInternals]);
 
   return (
     <WoodBG>
@@ -243,6 +263,7 @@ export default function MyHits(): JSX.Element {
             display: 'flex',
             alignSelf: 'stretch',
             marginTop: 5,
+            marginBottom: 10,
           }}>
           <View
             style={{
@@ -409,34 +430,27 @@ const style = StyleSheet.create({
     borderRadius: 100,
   },
   itemsListContainer: {
-    backgroundColor: 'wheat',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    marginLeft: '7.5%',
   },
   itemList: {
-    height: 60,
-    margin: 10,
-    elevation: 5,
-  },
-  listItemText: {
-    backgroundColor: 'black',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    borderWidth: 0,
-    color: 'white',
-    width: 120,
-    height: 30,
-    textAlign: 'center',
-    textAlignVertical: 'center',
+    height: 100,
+    width: 100,
+    marginLeft: '5%',
+    marginRight: '5%',
+    marginBottom: 10,
+    marginTop: '25%',
   },
   modalText: {
+    color: '#ffffff',
     margin: 10,
     alignItems: 'center',
     fontSize: 20,
     textAlign: 'center',
-    elevation: 25,
+    fontFamily: 'mr_ReaverockG',
   },
   modalButtons: {
     display: 'flex',
@@ -452,10 +466,26 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   hitText: {
-    color: 'white',
+    color: '#ffffff',
     textAlign: 'center',
     fontSize: 40,
     height: 60,
+    fontFamily: 'mr_ReaverockG',
+  },
+  descTextModal: {
+    alignItems: 'center',
+  },
+  listText: {
+    fontSize: 23,
+    color: '#000000',
+    fontFamily: 'mr_ReaverockG',
+  },
+  askButtonText: {
+    fontSize: 23,
+    color: '#ffffff',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    marginTop: 15,
     fontFamily: 'mr_ReaverockG',
   },
 });
