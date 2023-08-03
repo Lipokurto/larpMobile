@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Dimensions } from 'react-native';
+import { useToast } from 'react-native-toast-notifications';
 
 import {
   Text,
@@ -13,8 +14,6 @@ import {
 } from 'react-native';
 
 import none from '../../assets/armor-material/none.jpg';
-import steel from '../../assets/armor-material/steel.jpg';
-
 import heart from '../../assets/health/heart.png';
 import shield from '../../assets/health/shield.png';
 import scroll from '../../assets/main-menu-icons/scroll.png';
@@ -22,6 +21,8 @@ import flag from '../../assets/hit_icons/flag.png';
 import flagY from '../../assets/hit_icons/flagY.png';
 import flagB from '../../assets/hit_icons/flagB.png';
 import clearIcon from '../../assets/hit_icons/clearIcon.png';
+import closeButton from '../../assets/hit_icons/closeButton.png';
+import helmet from '../../assets/armor-material/helmet.png';
 
 import { ArmorItem, Armor } from './type';
 import { resolvePath } from '../../utils/resolve-path';
@@ -45,10 +46,37 @@ export default function MyHits(): JSX.Element {
   const [hasHelmet, setHasHelmet] = React.useState<boolean>(false);
   const [hasBack, setHasBack] = React.useState<boolean>(false);
 
+  const toast = useToast();
+
   React.useEffect(() => {
     const totalHits = currentArmor.reduce((acc, p) => acc + p.hits, 1);
+
+    if (
+      !isVisibleModal &&
+      totalHits !== hits &&
+      totalHits > 1 &&
+      !hasHelmet &&
+      currentLimb !== 'back' &&
+      currentLimb !== 'head'
+    ) {
+      toast.show('Без шлема хиты за броню не считаются - оденьте шлем', {
+        animationType: 'zoom-in',
+        textStyle: style.toastText,
+      });
+
+      return;
+    }
+
     setHits(hasHelmet ? Math.round(totalHits) : 1);
-  }, [hits, currentArmor, hasHelmet, hasBack]);
+  }, [
+    hits,
+    currentArmor,
+    hasHelmet,
+    hasBack,
+    toast,
+    currentLimb,
+    isVisibleModal,
+  ]);
 
   const renderHealth = React.useMemo(() => {
     const shields = Array(Math.round(hits)).fill(resolvePath(shield));
@@ -133,6 +161,15 @@ export default function MyHits(): JSX.Element {
       }
 
       if (type === 'back') {
+        if (currentArmor[2].hits === 0 && answer) {
+          toast.show('Сначала оденьте броню на тело', {
+            animationType: 'zoom-in',
+            textStyle: style.toastText,
+          });
+
+          return;
+        }
+
         setHasBack(answer);
 
         const correctArmor = currentArmor.map(p => {
@@ -151,7 +188,7 @@ export default function MyHits(): JSX.Element {
 
       setIsVisibleModal(false);
     },
-    [currentArmor],
+    [currentArmor, toast],
   );
 
   const renderAskButton = React.useCallback(
@@ -228,7 +265,13 @@ export default function MyHits(): JSX.Element {
     return currentArmor.find(p => p.limb === currentLimb)?.name;
   }, [currentArmor, currentLimb]);
 
+  const handleCloseModal = React.useCallback(() => {
+    setIsVisibleModal(false);
+  }, []);
+
   const renderModal = React.useMemo(() => {
+    const isNotHeadOrBack = currentLimb !== 'head' && currentLimb !== 'back';
+
     return (
       <Modal visible={isVisibleModal} animationType="slide" transparent>
         <PaperBG>
@@ -244,11 +287,28 @@ export default function MyHits(): JSX.Element {
             </ImageBackground>
 
             {modalInternals}
+
+            {isNotHeadOrBack && (
+              <TouchableOpacity
+                onPress={() => handleCloseModal()}
+                style={{ width: '100%', alignItems: 'center' }}>
+                <ImageBackground
+                  source={{ uri: resolvePath(closeButton) }}
+                  resizeMode="stretch"
+                  imageStyle={{
+                    height: 40,
+                    width: 150,
+                  }}
+                  style={{ width: 150 }}>
+                  <Text style={style.closeText}>Закрыть</Text>
+                </ImageBackground>
+              </TouchableOpacity>
+            )}
           </View>
         </PaperBG>
       </Modal>
     );
-  }, [isVisibleModal, listText, modalInternals]);
+  }, [currentLimb, handleCloseModal, isVisibleModal, listText, modalInternals]);
 
   return (
     <WoodBG>
@@ -300,10 +360,10 @@ export default function MyHits(): JSX.Element {
 
         <TouchableOpacity
           onPress={() => handleArmorChange(currentArmor[0].limb)}
-          style={style.item}>
+          style={style.headItem}>
           <ItemContainer
             name={currentArmor[0].name}
-            img={resolvePath(hasHelmet ? steel : none)}
+            img={resolvePath(hasHelmet ? helmet : none)}
           />
         </TouchableOpacity>
 
@@ -425,6 +485,14 @@ const style = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  headItem: {
+    width: windowWidth >= breakPoints.xs ? 90 : 65,
+    height: windowWidth >= breakPoints.xs ? 90 : 65,
+    marginLeft: '5%',
+    marginRight: '5%',
+    marginTop: '7%',
+    marginBottom: 10,
+  },
   itemsListImageBackground: {
     minHeight: 65,
     borderRadius: 100,
@@ -441,8 +509,7 @@ const style = StyleSheet.create({
     width: 100,
     marginLeft: '5%',
     marginRight: '5%',
-    marginBottom: 10,
-    marginTop: '25%',
+    marginTop: '10%',
   },
   modalText: {
     color: '#ffffff',
@@ -474,11 +541,13 @@ const style = StyleSheet.create({
   },
   descTextModal: {
     alignItems: 'center',
+    marginBottom: '10%',
   },
   listText: {
     fontSize: 23,
     color: '#000000',
     fontFamily: 'mr_ReaverockG',
+    marginTop: 3,
   },
   askButtonText: {
     fontSize: 23,
@@ -487,5 +556,16 @@ const style = StyleSheet.create({
     textAlignVertical: 'center',
     marginTop: 15,
     fontFamily: 'mr_ReaverockG',
+  },
+  closeText: {
+    fontSize: 17,
+    color: '#ffffff',
+    textAlign: 'center',
+    marginTop: 10,
+    fontFamily: 'mr_ReaverockG',
+  },
+  toastText: {
+    fontSize: 15,
+    textAlign: 'center',
   },
 });

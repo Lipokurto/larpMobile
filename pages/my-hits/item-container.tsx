@@ -18,7 +18,7 @@ export default function ItemContainer(props: Props): JSX.Element {
   return (
     <ImageBackground
       source={{ uri: props.img }}
-      resizeMode="stretch"
+      resizeMode={props.name === 'Голова' ? 'cover' : 'stretch'}
       imageStyle={style.itemImageBackground}>
       <ImageBackground
         source={{ uri: resolvePath(metalRing) }}
