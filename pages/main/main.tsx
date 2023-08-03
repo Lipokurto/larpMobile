@@ -86,6 +86,7 @@ const style = StyleSheet.create({
   },
   description: {
     fontSize: 20,
+    color: '#000000',
     textAlign: 'center',
     marginTop: 5,
     fontFamily: 'mr_ReaverockG',
