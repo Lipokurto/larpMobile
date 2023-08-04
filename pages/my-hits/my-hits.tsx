@@ -22,6 +22,7 @@ import flagY from '../../assets/hit_icons/flagY.png';
 import flagB from '../../assets/hit_icons/flagB.png';
 import clearIcon from '../../assets/hit_icons/clearIcon.png';
 import closeButton from '../../assets/hit_icons/closeButton.png';
+import body from '../../assets/hit_icons/body.png';
 import helmet from '../../assets/armor-material/helmet.png';
 
 import { ArmorItem, Armor } from './type';
@@ -312,159 +313,167 @@ export default function MyHits(): JSX.Element {
 
   return (
     <WoodBG>
-      <View style={myHitsStyle.container}>
-        {isVisibleModal && renderModal}
+      <ImageBackground
+        source={{ uri: resolvePath(body) }}
+        resizeMode="contain"
+        imageStyle={{
+          opacity: 0.3,
+          marginTop: 50,
+        }}>
+        <View style={myHitsStyle.container}>
+          {isVisibleModal && renderModal}
 
-        <ImageBackground
-          source={{ uri: resolvePath(scroll) }}
-          imageStyle={{ width: '100%', marginTop: -20, height: 60 }}
-          style={{
-            height: 30,
-            display: 'flex',
-            alignSelf: 'stretch',
-            marginTop: 5,
-            marginBottom: 10,
-          }}>
-          <View
+          <ImageBackground
+            source={{ uri: resolvePath(scroll) }}
+            imageStyle={{ width: '100%', marginTop: -20, height: 60 }}
             style={{
+              height: 30,
               display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
+              alignSelf: 'stretch',
+              marginTop: 5,
+              marginBottom: 10,
             }}>
-            <ImageBackground
-              source={{ uri: resolvePath(flag) }}
-              imageStyle={{ width: 50, height: 80, marginTop: -10 }}
-              style={{ width: 50 }}>
-              <Text style={style.hitText}>{hits}</Text>
-            </ImageBackground>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              }}>
+              <ImageBackground
+                source={{ uri: resolvePath(flag) }}
+                imageStyle={{ width: 50, height: 80, marginTop: -10 }}
+                style={{ width: 50 }}>
+                <Text style={style.hitText}>{hits}</Text>
+              </ImageBackground>
 
-            {renderHealth}
+              {renderHealth}
 
-            <ImageBackground
-              source={{ uri: resolvePath(flagY) }}
-              imageStyle={{ width: 50, height: 80, marginTop: -10 }}
-              style={{ width: 50 }}>
-              <TouchableOpacity onPress={() => handleReset()}>
-                <Image
-                  source={{
-                    uri: resolvePath(clearIcon),
-                    height: 30,
-                    width: 30,
-                  }}
-                  style={{ alignSelf: 'center', marginTop: 10, opacity: 0.5 }}
-                />
-              </TouchableOpacity>
-            </ImageBackground>
+              <ImageBackground
+                source={{ uri: resolvePath(flagY) }}
+                imageStyle={{ width: 50, height: 80, marginTop: -10 }}
+                style={{ width: 50 }}>
+                <TouchableOpacity onPress={() => handleReset()}>
+                  <Image
+                    source={{
+                      uri: resolvePath(clearIcon),
+                      height: 30,
+                      width: 30,
+                    }}
+                    style={{ alignSelf: 'center', marginTop: 10, opacity: 0.5 }}
+                  />
+                </TouchableOpacity>
+              </ImageBackground>
+            </View>
+          </ImageBackground>
+
+          <TouchableOpacity
+            onPress={() => handleArmorChange(currentArmor[0].limb)}
+            style={style.headItem}>
+            <ItemContainer
+              name={currentArmor[0].name}
+              img={resolvePath(hasHelmet ? helmet : none)}
+            />
+          </TouchableOpacity>
+
+          <View style={style.body}>
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[1].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[1].name}
+                img={currentArmor[1].img}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[2].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[2].name}
+                img={currentArmor[2].img}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[3].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[3].name}
+                img={currentArmor[3].img}
+              />
+            </TouchableOpacity>
           </View>
-        </ImageBackground>
 
-        <TouchableOpacity
-          onPress={() => handleArmorChange(currentArmor[0].limb)}
-          style={style.headItem}>
-          <ItemContainer
-            name={currentArmor[0].name}
-            img={resolvePath(hasHelmet ? helmet : none)}
-          />
-        </TouchableOpacity>
+          <View style={style.body}>
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[4].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[4].name}
+                img={currentArmor[4].img}
+              />
+            </TouchableOpacity>
 
-        <View style={style.body}>
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[1].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[1].name}
-              img={currentArmor[1].img}
-            />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[5].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[5].name}
+                img={hasBack ? currentArmor[2].img : resolvePath(none)}
+              />
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[2].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[2].name}
-              img={currentArmor[2].img}
-            />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[6].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[6].name}
+                img={currentArmor[6].img}
+              />
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[3].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[3].name}
-              img={currentArmor[3].img}
-            />
-          </TouchableOpacity>
+          <View style={style.body}>
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[7].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[7].name}
+                img={currentArmor[7].img}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[8].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[8].name}
+                img={currentArmor[8].img}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={style.body}>
+            <TouchableOpacity
+              onPress={() => handleArmorChange(currentArmor[9].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[9].name}
+                img={currentArmor[9].img}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => handleArmorChange(defaultArmor[10].limb)}
+              style={style.item}>
+              <ItemContainer
+                name={currentArmor[10].name}
+                img={currentArmor[10].img}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <View style={style.body}>
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[4].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[4].name}
-              img={currentArmor[4].img}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[5].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[5].name}
-              img={hasBack ? currentArmor[2].img : resolvePath(none)}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[6].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[6].name}
-              img={currentArmor[6].img}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <View style={style.body}>
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[7].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[7].name}
-              img={currentArmor[7].img}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[8].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[8].name}
-              img={currentArmor[8].img}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <View style={style.body}>
-          <TouchableOpacity
-            onPress={() => handleArmorChange(currentArmor[9].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[9].name}
-              img={currentArmor[9].img}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => handleArmorChange(defaultArmor[10].limb)}
-            style={style.item}>
-            <ItemContainer
-              name={currentArmor[10].name}
-              img={currentArmor[10].img}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ImageBackground>
     </WoodBG>
   );
 }

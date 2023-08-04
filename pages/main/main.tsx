@@ -19,6 +19,7 @@ import WoodBG from '../../utils/woodBG';
 type Service = {
   name: string;
   description: string;
+  service: string;
   key: number;
 };
 
@@ -26,13 +27,15 @@ const service: Service[] = [
   {
     name: 'Мои хиты',
     description: 'Рассчитай свои хиты',
+    service: 'MyHits',
     key: 1,
   },
-  // {
-  //   name: 'Правила',
-  //   description: 'Полный текст правил',
-  //   key: 2,
-  // },
+  {
+    name: 'Мой строяк',
+    description: 'Рассчитай стоимость доски',
+    service: 'MyBuild',
+    key: 2,
+  },
 ];
 
 export default function Main({ navigation }: any): JSX.Element {
@@ -55,7 +58,7 @@ export default function Main({ navigation }: any): JSX.Element {
                 source={{ uri: resolvePath(scroll) }}
                 resizeMode="stretch">
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('MyHits', item)}
+                  onPress={() => navigation.navigate(item.service, item)}
                   style={style.item}>
                   <Text style={style.title}>{item.name}</Text>
                   <Text style={style.description}>{item.description}</Text>
