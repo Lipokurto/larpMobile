@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet, ImageBackground } from 'react-native';
+import { StyleSheet, ImageBackground, Dimensions } from 'react-native';
 
 import mainBG from '../assets/main-menu-icons/mainBG.jpg';
 import { resolvePath } from './resolve-path';
@@ -8,6 +8,8 @@ import { resolvePath } from './resolve-path';
 type Props = {
   children: JSX.Element;
 };
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 export default function WoodBG({ children }: Props) {
   return (
@@ -22,7 +24,8 @@ export default function WoodBG({ children }: Props) {
 
 const style = StyleSheet.create({
   mainBG: {
-    height: '200%',
+    height: windowHeight,
+    width: windowWidth,
   },
   logo: {
     alignSelf: 'center',
