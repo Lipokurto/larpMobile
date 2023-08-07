@@ -6,8 +6,9 @@ import mainBG from '../assets/main-menu-icons/mainBG.jpg';
 import { resolvePath } from './resolve-path';
 
 type Props = {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 };
+
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 

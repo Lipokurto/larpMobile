@@ -56,9 +56,11 @@ export default function PicePrices(props: Props): JSX.Element {
           height: 10,
         }}
         style={{
-          marginTop: 5,
+          marginTop: 8,
           height: 10,
           width: 10,
+          marginLeft: 2,
+          marginRight: 2,
         }}
       />
     ),
@@ -71,10 +73,10 @@ export default function PicePrices(props: Props): JSX.Element {
         source={{
           uri: resolvePath(rope),
           width: 3,
-          height: 20,
+          height: 29,
         }}
         style={{
-          height: 20,
+          height: 29,
           width: 10,
         }}
       />
@@ -103,15 +105,15 @@ export default function PicePrices(props: Props): JSX.Element {
   );
 
   return (
-    <View>
+    <View style={{ marginTop: 5 }}>
       {currentItemPrice.map((p, i) => (
         <ImageBackground
           source={{ uri: resolvePath(boards[i]) }}
           resizeMode="stretch"
-          imageStyle={{ marginLeft: '-7%', marginTop: 2, marginBottom: 2 }}
+          imageStyle={{ marginLeft: '-3%', marginTop: 2, marginBottom: 2 }}
           key={p.item}
           style={style.itemPrice}>
-          <Text style={{ width: '35%' }}>{renderItemLabel(p.item)}</Text>
+          <Text style={{ width: '40%' }}>{renderItemLabel(p.item)}</Text>
 
           {renderRope}
 
@@ -121,7 +123,7 @@ export default function PicePrices(props: Props): JSX.Element {
               {
                 width: '25%',
                 textAlign: 'center',
-                height: 20,
+                height: 25,
                 marginBottom: 2,
               },
             ]}>
@@ -144,12 +146,14 @@ const style = StyleSheet.create({
   itemPrice: {
     flexDirection: 'row',
     width: '100%',
-    marginLeft: '7%',
+    marginLeft: '3%',
     marginRight: '7%',
-    marginTop: '4%',
+    marginTop: '2%',
   },
   textPrice: {
     color: '#000000',
+    fontSize: 16,
     textAlignVertical: 'center',
+    marginTop: 3,
   },
 });
