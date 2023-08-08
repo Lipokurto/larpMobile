@@ -2,12 +2,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, Image } from 'react-native';
 
-import board01 from '../../assets/build_icons/board01.png';
-import board02 from '../../assets/build_icons/board02.png';
-import board03 from '../../assets/build_icons/board03.png';
-import board04 from '../../assets/build_icons/board04.png';
-import board05 from '../../assets/build_icons/board05.png';
-import board06 from '../../assets/build_icons/board06.png';
+import board from '../../assets/build_icons/board.png';
 
 import rope from '../../assets/build_icons/rope.png';
 import nail from '../../assets/build_icons/nail.png';
@@ -19,8 +14,6 @@ import { resolvePath } from '../../utils/resolve-path';
 type Props = {
   globalPrice: number | null;
 };
-
-const boards = [board01, board02, board03, board04, board05, board06];
 
 export default function PicePrices(props: Props): JSX.Element {
   const currentItemPrice: ItemPrice[] = defaultPrice.map(p => {
@@ -106,9 +99,9 @@ export default function PicePrices(props: Props): JSX.Element {
 
   return (
     <View style={{ marginTop: 5 }}>
-      {currentItemPrice.map((p, i) => (
+      {currentItemPrice.map(p => (
         <ImageBackground
-          source={{ uri: resolvePath(boards[i]) }}
+          source={{ uri: resolvePath(board) }}
           resizeMode="stretch"
           imageStyle={{ marginLeft: '-3%', marginTop: 2, marginBottom: 2 }}
           key={p.item}

@@ -21,12 +21,15 @@ import WoodBG from '../../../utils/woodBG';
 import { resolvePath } from '../../../utils/resolve-path';
 import { Item } from '../type';
 import PaperBG from '../../../utils/paperBG';
+import ListItem from './list-item';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function MySchemes(props: any): JSX.Element {
   const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false);
   const [currentName, setCurrentName] = React.useState<string>('');
+  const [currentGlobalItems, setCurrentGlobalItems] =
+    React.useState(defaultItems);
 
   const { globalPrice } = props.route.params.params;
 
@@ -73,38 +76,110 @@ export default function MySchemes(props: any): JSX.Element {
     setIsModalVisible(true);
   }, []);
 
-  const renderModal = React.useMemo(() => {
+  const renderCloseButton = React.useMemo(() => {
+    return (
+      <TouchableOpacity
+        onPress={() => handleCloseModal()}
+        style={{ width: '100%', alignItems: 'center' }}>
+        <ImageBackground
+          source={{ uri: resolvePath(closeButton) }}
+          resizeMode="stretch"
+          imageStyle={{
+            height: 40,
+            width: 150,
+          }}
+          style={{ width: 150 }}>
+          <Text style={style.closeText}>Закрыть</Text>
+        </ImageBackground>
+      </TouchableOpacity>
+    );
+  }, [handleCloseModal]);
+
+  const renderWoods = React.useMemo(() => {
     const currentItem = defaultItems.find(p => p.name === currentName);
+
+    if (currentItem) {
+      return (
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            margin: '5%',
+          }}>
+          <View>
+            <ListItem label="Нужно" items={currentItem.wood} />
+
+            {currentItem.rest && (
+              <ListItem label="Остатки" items={currentItem.rest} />
+            )}
+          </View>
+
+          <View>
+            <ListItem label="Распил леса" items={currentItem.saw} />
+          </View>
+        </View>
+      );
+    }
+  }, [currentName]);
+
+  const renderModal = React.useMemo(() => {
+    const currentItem = currentGlobalItems.find(p => p.name === currentName);
 
     if (currentItem) {
       return (
         <Modal visible={isModalVisible} animationType="slide" transparent>
           <PaperBG>
             <View>
-              <Text>{currentName}</Text>
+              <ImageBackground
+                source={{ uri: resolvePath(branch) }}
+                resizeMode="stretch"
+                imageStyle={{ height: 50 }}
+                style={{
+                  flexDirection: 'row',
+                  height: 50,
+                  width: windowWidth,
+                }}>
+                <Text style={[style.textList, { width: '30%' }]}>
+                  {currentItem.name}
+                </Text>
+
+                <Image
+                  source={{
+                    uri: resolvePath(ropeHole),
+                    height: 35,
+                    width: 5,
+                  }}
+                  style={{ marginTop: 7 }}
+                />
+
+                <Text style={[style.textList, { width: '45%' }]}>
+                  {renderItemLabel(currentItem.size)}
+                </Text>
+
+                <Image
+                  source={{
+                    uri: resolvePath(ropeHole),
+                    height: 35,
+                    width: 5,
+                  }}
+                  style={{ marginTop: 7 }}
+                />
+
+                <Text style={[style.textList, { width: '22%' }]}>
+                  {currentItem.price}
+                </Text>
+              </ImageBackground>
 
               <Image
                 source={{
                   uri: resolvePath(currentItem.img),
-                  width: windowWidth,
-                  height: 200,
+                  height: 180,
                 }}
               />
 
-              <TouchableOpacity
-                onPress={() => handleCloseModal()}
-                style={{ width: '100%', alignItems: 'center' }}>
-                <ImageBackground
-                  source={{ uri: resolvePath(closeButton) }}
-                  resizeMode="stretch"
-                  imageStyle={{
-                    height: 40,
-                    width: 150,
-                  }}
-                  style={{ width: 150 }}>
-                  <Text style={style.closeText}>Закрыть</Text>
-                </ImageBackground>
-              </TouchableOpacity>
+              {renderWoods}
+
+              {renderCloseButton}
             </View>
           </PaperBG>
         </Modal>
@@ -112,7 +187,14 @@ export default function MySchemes(props: any): JSX.Element {
     }
 
     return null;
-  }, [currentName, handleCloseModal, isModalVisible]);
+  }, [
+    currentGlobalItems,
+    currentName,
+    isModalVisible,
+    renderCloseButton,
+    renderItemLabel,
+    renderWoods,
+  ]);
 
   const renderList = React.useMemo(() => {
     function calculateItemPrice(woods: Item[]) {
@@ -141,13 +223,15 @@ export default function MySchemes(props: any): JSX.Element {
         price: calculateItemPrice(p.wood).toFixed(2) || '-',
       };
     });
+    setCurrentGlobalItems(currentItems);
 
     return currentItems.map(p => {
       return (
-        <TouchableOpacity onPress={() => handleSchemeChange(p.name)}>
+        <TouchableOpacity
+          key={`${p.name}${p.size}`}
+          onPress={() => handleSchemeChange(p.name)}>
           <ImageBackground
             source={{ uri: resolvePath(branch) }}
-            key={p.name}
             resizeMode="stretch"
             imageStyle={{ height: 50 }}
             style={{
@@ -167,7 +251,7 @@ export default function MySchemes(props: any): JSX.Element {
               style={{ marginTop: 7 }}
             />
 
-            <Text style={[style.textList, { width: '40%' }]}>
+            <Text style={[style.textList, { width: '45%' }]}>
               {renderItemLabel(p.size)}
             </Text>
 
@@ -180,7 +264,7 @@ export default function MySchemes(props: any): JSX.Element {
               style={{ marginTop: 7 }}
             />
 
-            <Text style={[style.textList, { width: '30%' }]}>{p.price}</Text>
+            <Text style={[style.textList, { width: '22%' }]}>{p.price}</Text>
           </ImageBackground>
         </TouchableOpacity>
       );
@@ -191,6 +275,7 @@ export default function MySchemes(props: any): JSX.Element {
     <WoodBG>
       <View>
         {isModalVisible && renderModal}
+
         {renderList}
       </View>
     </WoodBG>
