@@ -18,5 +18,5 @@ export type WoodItem = {
   img: ImageSourcePropType;
   wood: Item[];
   saw: Item[];
-  rest: Item[];
+  rest?: Item[];
 };
