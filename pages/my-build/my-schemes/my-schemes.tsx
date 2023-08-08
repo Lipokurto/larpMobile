@@ -9,6 +9,7 @@ import {
   View,
   TouchableOpacity,
   Modal,
+  ScrollView,
 } from 'react-native';
 
 import branch from '../../../assets/build_scheme/icons/branch.png';
@@ -88,7 +89,7 @@ export default function MySchemes(props: any): JSX.Element {
             height: 40,
             width: 150,
           }}
-          style={{ width: 150 }}>
+          style={{ width: 150, marginBottom: 10 }}>
           <Text style={style.closeText}>Закрыть</Text>
         </ImageBackground>
       </TouchableOpacity>
@@ -129,7 +130,7 @@ export default function MySchemes(props: any): JSX.Element {
       return (
         <Modal visible={isModalVisible} animationType="slide" transparent>
           <PaperBG>
-            <View>
+            <ScrollView>
               <ImageBackground
                 source={{ uri: resolvePath(branch) }}
                 resizeMode="stretch"
@@ -170,17 +171,19 @@ export default function MySchemes(props: any): JSX.Element {
                 </Text>
               </ImageBackground>
 
+              {renderCloseButton}
+
               <Image
                 source={{
                   uri: resolvePath(currentItem.img),
-                  height: 180,
+                  height: 300,
+                  width: windowWidth,
                 }}
+                resizeMode="contain"
               />
 
               {renderWoods}
-
-              {renderCloseButton}
-            </View>
+            </ScrollView>
           </PaperBG>
         </Modal>
       );
