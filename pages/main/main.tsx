@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Image,
   View,
+  Linking,
 } from 'react-native';
 
 import scroll from '../../assets/main-menu-icons/scroll.png';
@@ -39,17 +40,25 @@ const service: Service[] = [
 ];
 
 export default function Main({ navigation }: any): JSX.Element {
+  const link = 'http://larpdarkage.ru/';
+  const openLink = React.useCallback(() => {
+    Linking.openURL(link);
+  }, []);
+
   return (
     <WoodBG>
       <View>
-        <Image
-          style={style.logo}
-          source={{
-            height: 200,
-            width: 200,
-            uri: resolvePath(logo),
-          }}
-        />
+        <TouchableOpacity onPress={openLink}>
+          <Image
+            style={style.logo}
+            source={{
+              height: 200,
+              width: 200,
+              uri: resolvePath(logo),
+            }}
+          />
+        </TouchableOpacity>
+
         <FlatList
           data={service}
           renderItem={({ item }) => {
