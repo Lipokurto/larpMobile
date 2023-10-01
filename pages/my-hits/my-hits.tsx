@@ -60,7 +60,7 @@ export default function MyHits(): JSX.Element {
       currentLimb !== 'back' &&
       currentLimb !== 'head'
     ) {
-      toast.show('Без шлема хиты за броню не считаются - оденьте шлем', {
+      toast.show('Без шлема хиты за броню не считаются - наденьте шлем', {
         animationType: 'zoom-in',
         textStyle: style.toastText,
       });
