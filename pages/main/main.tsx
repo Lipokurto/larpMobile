@@ -32,10 +32,16 @@ const service: Service[] = [
     key: 1,
   },
   {
+    name: 'Мое время',
+    description: 'Поставь таймер статуса',
+    service: 'MyTime',
+    key: 2,
+  },
+  {
     name: 'Мой строяк',
     description: 'Рассчитай стоимость доски',
     service: 'MyBuild',
-    key: 2,
+    key: 3,
   },
 ];
 
@@ -88,19 +94,18 @@ const style = StyleSheet.create({
   item: {
     marginBottom: 20,
     justifyContent: 'center',
-    padding: 10,
+    padding: 5,
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     textAlign: 'center',
     fontFamily: 'mr_ReaverockG',
     color: '#000000',
   },
   description: {
-    fontSize: 20,
+    fontSize: 15,
     color: '#000000',
     textAlign: 'center',
-    marginTop: 5,
     fontFamily: 'mr_ReaverockG',
   },
   logo: {
