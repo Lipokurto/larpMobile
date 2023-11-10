@@ -13,12 +13,9 @@ import stripe from '../../assets/timer/stripe.png';
 import healIcon from '../../assets/timer/icons/heal.png';
 import repairIcon from '../../assets/timer/icons/repair.png';
 import heavyIcon from '../../assets/timer/icons/heavy.png';
-import lootIcon from '../../assets/timer/icons/loot.png';
 import deadIcon from '../../assets/timer/icons/scull.png';
-import victimIcon from '../../assets/timer/icons/mark.png';
-import prayIcon from '../../assets/timer/icons/pray.png';
-import eatIcon from '../../assets/timer/icons/eat.png';
-import executionIcon from '../../assets/timer/icons/execution.png';
+import planIcon from '../../assets/timer/icons/mine.png';
+import tradeIcon from '../../assets/timer/icons/trade.png';
 
 import WoodBG from '../../utils/woodBG';
 import { resolvePath } from '../../utils/resolve-path';
@@ -27,19 +24,9 @@ const timers = [
   { type: 'heal', name: 'Лечение', time: [0, 15, 0], icon: healIcon },
   { type: 'repair', name: 'Ремонт', time: [0, 15, 0], icon: repairIcon },
   { type: 'heavy', name: 'Тяжелое ранение', time: [0, 15, 0], icon: heavyIcon },
-  { type: 'loot', name: 'Полный обыск', time: [0, 5, 0], icon: lootIcon },
-
   { type: 'dead', name: 'Мертвяк', time: [2, 0, 0], icon: deadIcon },
-  {
-    type: 'victimDead',
-    name: 'Метка жертвы',
-    time: [1, 0, 0],
-    icon: victimIcon,
-  },
-
-  { type: 'pray', name: 'Молитва', time: [0, 10, 0], icon: prayIcon },
-  { type: 'eat', name: 'Пожирание', time: [0, 15, 0], icon: eatIcon },
-  { type: 'execution', name: 'Казнь', time: [0, 5, 0], icon: executionIcon },
+  { type: 'plan', name: 'План работ', time: [2, 0, 0], icon: planIcon },
+  { type: 'trade', name: 'Снабжение', time: [2, 0, 0], icon: tradeIcon },
 ];
 
 export default function MyTime({ navigation }: any): JSX.Element {
@@ -49,12 +36,16 @@ export default function MyTime({ navigation }: any): JSX.Element {
         return (
           <ImageBackground
             source={{ uri: resolvePath(stripe) }}
-            resizeMode="stretch">
+            resizeMode="stretch"
+            key={e.name}>
             <TouchableOpacity
               style={style.item}
               onPress={() =>
                 navigation.navigate('MyTimer', {
-                  params: { timer: e.time },
+                  params: {
+                    timer: e.time,
+                    type: e.type,
+                  },
                 })
               }>
               <Image
@@ -68,6 +59,8 @@ export default function MyTime({ navigation }: any): JSX.Element {
               <Text style={style.text}>{e.name}</Text>
 
               <Image
+                // eslint-disable-next-line react-native/no-inline-styles
+                style={{ marginTop: 3 }}
                 source={{
                   height: 45,
                   width: 15,
@@ -104,14 +97,17 @@ const style = StyleSheet.create({
     height: 50,
     display: 'flex',
     flexDirection: 'row',
+    marginLeft: 10,
   },
   time: {
     fontSize: 20,
     width: '20%',
-    textAlign: 'center',
+    textAlign: 'right',
     textAlignVertical: 'center',
-    color: '#000000',
+    color: 'wheat',
     fontFamily: 'mr_ReaverockG',
+    textShadowColor: '#000000',
+    textShadowRadius: 10,
   },
   text: {
     fontSize: 20,
@@ -122,5 +118,7 @@ const style = StyleSheet.create({
     textAlignVertical: 'center',
     color: '#000000',
     fontFamily: 'mr_ReaverockG',
+    textShadowColor: '#ffffff',
+    textShadowRadius: 10,
   },
 });

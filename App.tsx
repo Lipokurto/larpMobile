@@ -72,7 +72,7 @@ export default function App(): JSX.Element {
             name="MyTimer"
             component={TimerComponent}
             options={{
-              title: 'Ждем',
+              title: 'Мой таймер',
               cardShadowEnabled: true,
               animationEnabled: true,
               headerStyle: {
