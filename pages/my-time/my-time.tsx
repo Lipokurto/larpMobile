@@ -8,8 +8,7 @@ import {
   View,
 } from 'react-native';
 
-import rope from '../../assets/timer/rope.png';
-import stripe from '../../assets/timer/stripe.png';
+import buttWood from '../../assets/timer/button.png';
 import healIcon from '../../assets/timer/icons/heal.png';
 import repairIcon from '../../assets/timer/icons/repair.png';
 import heavyIcon from '../../assets/timer/icons/heavy.png';
@@ -26,7 +25,7 @@ const timers = [
   { type: 'heavy', name: 'Тяжелое ранение', time: [0, 15, 0], icon: heavyIcon },
   { type: 'dead', name: 'Мертвяк', time: [2, 0, 0], icon: deadIcon },
   { type: 'plan', name: 'План работ', time: [2, 0, 0], icon: planIcon },
-  { type: 'trade', name: 'Снабжение', time: [2, 0, 0], icon: tradeIcon },
+  { type: 'trade', name: 'Снабжение', time: [0, 0, 15], icon: tradeIcon },
 ];
 
 export default function MyTime({ navigation }: any): JSX.Element {
@@ -35,8 +34,13 @@ export default function MyTime({ navigation }: any): JSX.Element {
       timers.map(e => {
         return (
           <ImageBackground
-            source={{ uri: resolvePath(stripe) }}
+            source={{ uri: resolvePath(buttWood) }}
             resizeMode="stretch"
+            // eslint-disable-next-line react-native/no-inline-styles
+            imageStyle={{
+              width: 150,
+              height: 112,
+            }}
             key={e.name}>
             <TouchableOpacity
               style={style.item}
@@ -54,27 +58,17 @@ export default function MyTime({ navigation }: any): JSX.Element {
                   width: 50,
                   uri: resolvePath(e.icon),
                 }}
+                style={style.icon}
               />
 
-              <Text style={style.text}>{e.name}</Text>
-
-              <Image
-                // eslint-disable-next-line react-native/no-inline-styles
-                style={{ marginTop: 3 }}
-                source={{
-                  height: 45,
-                  width: 15,
-                  uri: resolvePath(rope),
-                }}
-              />
-
-              <Text style={style.time}>{`${e.time[0]
-                .toString()
-                .padStart(2, '0')}:${e.time[1]
-                .toString()
-                .padStart(2, '0')}:${e.time[2]
-                .toString()
-                .padStart(2, '0')}`}</Text>
+              <Text
+                style={[
+                  style.text,
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  { fontSize: e.type === 'heavy' ? 20 : 25 },
+                ]}>
+                {e.name}
+              </Text>
             </TouchableOpacity>
           </ImageBackground>
         );
@@ -92,28 +86,25 @@ export default function MyTime({ navigation }: any): JSX.Element {
 const style = StyleSheet.create({
   container: {
     marginTop: 10,
-  },
-  item: {
-    height: 50,
     display: 'flex',
     flexDirection: 'row',
-    marginLeft: 10,
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 5,
   },
-  time: {
-    fontSize: 20,
-    width: '20%',
-    textAlign: 'right',
-    textAlignVertical: 'center',
-    color: 'wheat',
-    fontFamily: 'mr_ReaverockG',
-    textShadowColor: '#000000',
-    textShadowRadius: 10,
+  icon: {
+    alignSelf: 'center',
+    height: 60,
+    width: 60,
+  },
+  item: {
+    height: 112,
+    width: 150,
+    display: 'flex',
+    flexDirection: 'column',
   },
   text: {
-    fontSize: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    width: '40%',
+    marginTop: -5,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#000000',

@@ -14,6 +14,13 @@ import redButton from '../../assets/hit_icons/closeButton.png';
 import healStatus from '../../assets/timer/status/heal-stripe.png';
 import repairStatus from '../../assets/timer/status/repair-stripe.png';
 import deadStatus from '../../assets/timer/status/dead-status.png';
+import healPack from '../../assets/timer/pack/heal.png';
+import repairPack from '../../assets/timer/pack/repair.png';
+import deadPack from '../../assets/timer/pack/dead.png';
+import heavyPack from '../../assets/timer/pack/heavy.png';
+import planPack from '../../assets/timer/pack/plan.png';
+import tradePack from '../../assets/timer/pack/trade.png';
+
 import WoodBG from '../../utils/woodBG';
 import { resolvePath } from '../../utils/resolve-path';
 
@@ -165,45 +172,23 @@ export default function TimerComponent(props: any): JSX.Element {
         return (
           <View>
             <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>1.</Text>{' '}
-                Используйте медкомплект или договоритесь о лечении в госпитале
-              </Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>2.</Text>{' '}
-                Наденьте повязку
-              </Text>
+              <Text style={style.text}>Наденьте повязку</Text>
               <Image
                 style={style.stripe}
                 source={{
                   uri: resolvePath(healStatus),
-                  height: 50,
-                  width: 50,
+                  height: 100,
+                  width: 100,
                 }}
               />
             </View>
             {renderRopeDivider}
 
             <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>3.</Text>{' '}
-                Запустите таймер
-              </Text>
+              <Text style={style.text}>Запустите таймер</Text>
               {renderTimer}
               <Text style={style.text2}>
                 Не уходите далеко от места лечения
-              </Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>4.</Text>{' '}
-                Дождитесь окончания лечения
               </Text>
             </View>
           </View>
@@ -217,6 +202,15 @@ export default function TimerComponent(props: any): JSX.Element {
           </Text>
           <Text style={style.text}>Вы восстановили все живые хиты</Text>
           <Text style={style.text}>Снимите повязку</Text>
+
+          <Image
+            style={style.pack}
+            source={{
+              uri: resolvePath(healPack),
+              height: 100,
+              width: 100,
+            }}
+          />
         </View>
       );
     }
@@ -226,45 +220,23 @@ export default function TimerComponent(props: any): JSX.Element {
         return (
           <View>
             <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>1.</Text>{' '}
-                Используйте ремкомплект или договоритесь о ремонте в кузнице
-              </Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>2.</Text>{' '}
-                Наденьте повязку
-              </Text>
+              <Text style={style.text}>Наденьте повязку</Text>
               <Image
                 style={style.stripe}
                 source={{
                   uri: resolvePath(repairStatus),
-                  height: 50,
-                  width: 50,
+                  height: 100,
+                  width: 100,
                 }}
               />
             </View>
             {renderRopeDivider}
 
             <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>3.</Text>{' '}
-                Запустите таймер
-              </Text>
+              <Text style={style.text}>Запустите таймер</Text>
               {renderTimer}
               <Text style={style.text2}>
                 Не уходите далеко от места ремонта
-              </Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>4.</Text>{' '}
-                Дождитесь окончания ремонта
               </Text>
             </View>
           </View>
@@ -278,6 +250,15 @@ export default function TimerComponent(props: any): JSX.Element {
           </Text>
           <Text style={style.text}>Вы восстановили все броневые хиты</Text>
           <Text style={style.text}>Снимите повязку</Text>
+
+          <Image
+            style={style.pack}
+            source={{
+              uri: resolvePath(repairPack),
+              height: 100,
+              width: 100,
+            }}
+          />
         </View>
       );
     }
@@ -286,13 +267,6 @@ export default function TimerComponent(props: any): JSX.Element {
       if (!isOver) {
         return (
           <View>
-            <View style={style.block}>
-              <Text style={style.text}>
-                Вы истекаете кровью, поторопитесь найти помощь
-              </Text>
-            </View>
-            {renderRopeDivider}
-
             <View style={style.block}>
               <Text style={style.text}>Запустите таймер</Text>
               {renderTimer}
@@ -312,7 +286,7 @@ export default function TimerComponent(props: any): JSX.Element {
       }
 
       return (
-        <View style={style.final}>
+        <View>
           <Text style={[style.timerContainer, { marginBottom: 20 }]}>
             Вы умерли от полученных ран!
           </Text>
@@ -322,8 +296,8 @@ export default function TimerComponent(props: any): JSX.Element {
               style={style.stripe}
               source={{
                 uri: resolvePath(deadStatus),
-                height: 50,
-                width: 50,
+                height: 100,
+                width: 100,
               }}
             />
           </View>
@@ -331,6 +305,15 @@ export default function TimerComponent(props: any): JSX.Element {
           <Text style={style.text}>Наденьте повязку</Text>
 
           <Text style={style.text}>Ближайшим путем проследуйте в мертвяк</Text>
+
+          <Image
+            style={style.pack}
+            source={{
+              uri: resolvePath(heavyPack),
+              height: 100,
+              width: 100,
+            }}
+          />
         </View>
       );
     }
@@ -339,56 +322,31 @@ export default function TimerComponent(props: any): JSX.Element {
       if (!isOver) {
         return (
           <View>
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>1.</Text> Найдите
-                интенданта своего лагеря или мастера по мертвяку
-              </Text>
-            </View>
-            {renderRopeDivider}
-
             {!isStart && (
               <View style={style.block}>
-                <Text style={style.text}>Принимаете метку жертвы?</Text>
-                <Text style={style.text2}>
-                  Если она у вас уже есть то пропускайте этот шаг
-                </Text>
+                <Text style={style.text}>Получить метку жертвы?</Text>
                 {renderMarkChoose}
               </View>
             )}
             {!isStart ? renderRopeDivider : null}
 
             <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>2.</Text>{' '}
-                Наденьте повязку
-              </Text>
+              <Text style={style.text}>Наденьте повязку</Text>
               <Image
                 style={style.stripe}
                 source={{
                   uri: resolvePath(deadStatus),
-                  height: 50,
-                  width: 50,
+                  height: 100,
+                  width: 100,
                 }}
               />
             </View>
             {renderRopeDivider}
 
             <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>3.</Text>{' '}
-                Запустите таймер
-              </Text>
+              <Text style={style.text}>Запустите таймер</Text>
               {renderTimer}
               <Text style={style.text2}>Не уходите далеко от мертвяка</Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>4.</Text>{' '}
-                Дождитесь окончания мертвяка
-              </Text>
             </View>
           </View>
         );
@@ -400,8 +358,15 @@ export default function TimerComponent(props: any): JSX.Element {
             Ваше мертвяк окончен!
           </Text>
           <Text style={style.text}>Снимите повязку</Text>
-          <Text style={style.text}>У вас восстанавливаются все хиты</Text>
-          <Text style={style.text}>Психозы и метка жертвы остаются с вами</Text>
+
+          <Image
+            style={style.pack}
+            source={{
+              uri: resolvePath(deadPack),
+              height: 100,
+              width: 100,
+            }}
+          />
         </View>
       );
     }
@@ -411,13 +376,6 @@ export default function TimerComponent(props: any): JSX.Element {
         return (
           <View>
             <View style={style.block}>
-              <Text style={style.text}>
-                Ваше предприятие приступило к активной добыче ресурсов
-              </Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
               <Text style={style.text}>Запустите таймер</Text>
               {renderTimer}
               <Text style={style.text2}>
@@ -425,11 +383,6 @@ export default function TimerComponent(props: any): JSX.Element {
               </Text>
 
               <Text style={style.text2}>Бригадир не должен покидать город</Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>Дождитесь окончания периода добычи</Text>
             </View>
           </View>
         );
@@ -442,8 +395,17 @@ export default function TimerComponent(props: any): JSX.Element {
           </Text>
 
           <Text style={style.text}>
-            Бригадир может запросить у мастерского торговца ресурсы
+            Бригадир может забрать у мастерского торговца ресурсы
           </Text>
+
+          <Image
+            style={style.pack}
+            source={{
+              uri: resolvePath(planPack),
+              height: 100,
+              width: 100,
+            }}
+          />
         </View>
       );
     }
@@ -454,42 +416,14 @@ export default function TimerComponent(props: any): JSX.Element {
           <View>
             <View style={style.block}>
               <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>1.</Text> Найдите
-                интенданта своего лагеря
-              </Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>2.</Text>{' '}
                 Составьте список необходимых ресурсов
               </Text>
             </View>
             {renderRopeDivider}
 
             <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>3.</Text>{' '}
-                Оплатите ресурсы заказанные ресурсы и поставьте печать лагеря
-              </Text>
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>3.</Text>{' '}
-                Запустите таймер
-              </Text>
+              <Text style={style.text}>Запустите таймер</Text>
               {renderTimer}
-            </View>
-            {renderRopeDivider}
-
-            <View style={style.block}>
-              <Text style={style.text}>
-                <Text style={{ color: 'white', fontSize: 25 }}>4.</Text>{' '}
-                Дождитесь когда ресурсы смогут прибыть в лагерь
-              </Text>
             </View>
           </View>
         );
@@ -500,10 +434,18 @@ export default function TimerComponent(props: any): JSX.Element {
           <Text style={[style.timerContainer, { marginBottom: 20 }]}>
             Ресурсы прибыли!
           </Text>
-          <Text style={style.text}>Получите заказанные ресурсы</Text>
           <Text style={style.text}>
-            Можете составить новую заявку на снабжение
+            Получите заказанные ресурсы у интенданта
           </Text>
+
+          <Image
+            style={style.pack}
+            source={{
+              uri: resolvePath(tradePack),
+              height: 100,
+              width: 100,
+            }}
+          />
         </View>
       );
     }
@@ -522,6 +464,11 @@ export default function TimerComponent(props: any): JSX.Element {
 }
 
 const style = StyleSheet.create({
+  pack: {
+    alignSelf: 'center',
+    opacity: 0.7,
+    marginTop: 20,
+  },
   buttonsGroup: {
     display: 'flex',
     flexDirection: 'row',
@@ -554,16 +501,17 @@ const style = StyleSheet.create({
     fontFamily: 'mr_ReaverockG',
   },
   text: {
-    fontSize: 20,
+    fontSize: 25,
     marginLeft: 20,
     marginRight: 20,
+    marginBottom: 5,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: 'wheat',
     fontFamily: 'mr_ReaverockG',
   },
   text2: {
-    fontSize: 15,
+    fontSize: 22,
     marginLeft: 20,
     marginRight: 20,
     textAlign: 'center',
