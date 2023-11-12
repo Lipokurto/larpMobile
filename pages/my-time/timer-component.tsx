@@ -59,12 +59,12 @@ export default function TimerComponent(props: any): JSX.Element {
           source={{ uri: resolvePath(redButton) }}
           resizeMode="stretch"
           imageStyle={{
-            height: 40,
-            width: 150,
+            height: 60,
+            width: 200,
           }}
-          style={{ width: 150, marginBottom: 10 }}>
+          style={{ width: 200, height: 60, marginBottom: 10 }}>
           <Text style={style.buttonText}>
-            {isStart ? 'Теперь ждите...' : 'Начать'}
+            {isStart ? 'Ждать осталось...' : 'Начать'}
           </Text>
         </ImageBackground>
       </TouchableOpacity>
@@ -139,7 +139,7 @@ export default function TimerComponent(props: any): JSX.Element {
               width: 75,
             }}
             style={{ width: 75, marginBottom: 10 }}>
-            <Text style={style.buttonText}>Да</Text>
+            <Text style={style.buttonText2}>Да</Text>
           </ImageBackground>
         </TouchableOpacity>
 
@@ -157,7 +157,7 @@ export default function TimerComponent(props: any): JSX.Element {
               width: 75,
             }}
             style={{ width: 75, marginBottom: 10 }}>
-            <Text style={style.buttonText}>Нет</Text>
+            <Text style={style.buttonText2}>Нет</Text>
           </ImageBackground>
         </TouchableOpacity>
       </View>
@@ -278,7 +278,7 @@ export default function TimerComponent(props: any): JSX.Element {
 
             <View style={style.block}>
               <Text style={style.text}>
-                Если вам не оказали помощь вы умираете
+                Если вам не окажут помощь - вы умрете!
               </Text>
             </View>
           </View>
@@ -382,7 +382,9 @@ export default function TimerComponent(props: any): JSX.Element {
                 В локации должны находится работники
               </Text>
 
-              <Text style={style.text2}>Бригадир не должен покидать город</Text>
+              <Text style={style.text2}>
+                Бригадир должен находится в городе
+              </Text>
             </View>
           </View>
         );
@@ -422,6 +424,11 @@ export default function TimerComponent(props: any): JSX.Element {
             {renderRopeDivider}
 
             <View style={style.block}>
+              <Text style={style.text}>Оплатите доставку ресурсов</Text>
+            </View>
+            {renderRopeDivider}
+
+            <View style={style.block}>
               <Text style={style.text}>Запустите таймер</Text>
               {renderTimer}
             </View>
@@ -434,9 +441,7 @@ export default function TimerComponent(props: any): JSX.Element {
           <Text style={[style.timerContainer, { marginBottom: 20 }]}>
             Ресурсы прибыли!
           </Text>
-          <Text style={style.text}>
-            Получите заказанные ресурсы у интенданта
-          </Text>
+          <Text style={style.text}>Получите ресурсы у интенданта</Text>
 
           <Image
             style={style.pack}
@@ -494,6 +499,13 @@ const style = StyleSheet.create({
     fontFamily: 'mr_ReaverockG',
   },
   buttonText: {
+    fontSize: 27,
+    color: '#ffffff',
+    textAlign: 'center',
+    marginTop: 10,
+    fontFamily: 'mr_ReaverockG',
+  },
+  buttonText2: {
     fontSize: 17,
     color: '#ffffff',
     textAlign: 'center',

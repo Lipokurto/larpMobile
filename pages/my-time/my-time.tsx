@@ -22,10 +22,10 @@ import { resolvePath } from '../../utils/resolve-path';
 const timers = [
   { type: 'heal', name: 'Лечение', time: [0, 15, 0], icon: healIcon },
   { type: 'repair', name: 'Ремонт', time: [0, 15, 0], icon: repairIcon },
-  { type: 'heavy', name: 'Тяжелое ранение', time: [0, 15, 0], icon: heavyIcon },
+  { type: 'heavy', name: 'Тяж. ранение', time: [0, 15, 0], icon: heavyIcon },
   { type: 'dead', name: 'Мертвяк', time: [2, 0, 0], icon: deadIcon },
   { type: 'plan', name: 'План работ', time: [2, 0, 0], icon: planIcon },
-  { type: 'trade', name: 'Снабжение', time: [0, 0, 15], icon: tradeIcon },
+  { type: 'trade', name: 'Снабжение', time: [2, 0, 0], icon: tradeIcon },
 ];
 
 export default function MyTime({ navigation }: any): JSX.Element {
@@ -38,12 +38,12 @@ export default function MyTime({ navigation }: any): JSX.Element {
             resizeMode="stretch"
             // eslint-disable-next-line react-native/no-inline-styles
             imageStyle={{
-              width: 150,
-              height: 112,
+              width: 140,
+              height: 105,
             }}
+            style={style.item}
             key={e.name}>
             <TouchableOpacity
-              style={style.item}
               onPress={() =>
                 navigation.navigate('MyTimer', {
                   params: {
@@ -65,7 +65,7 @@ export default function MyTime({ navigation }: any): JSX.Element {
                 style={[
                   style.text,
                   // eslint-disable-next-line react-native/no-inline-styles
-                  { fontSize: e.type === 'heavy' ? 20 : 25 },
+                  { fontSize: e.type === 'heavy' ? 24 : 26 },
                 ]}>
                 {e.name}
               </Text>
@@ -98,13 +98,14 @@ const style = StyleSheet.create({
     width: 60,
   },
   item: {
-    height: 112,
-    width: 150,
+    height: 105,
+    width: 140,
     display: 'flex',
     flexDirection: 'column',
+    margin: '2%',
   },
   text: {
-    marginTop: -5,
+    marginTop: -7,
     textAlign: 'center',
     textAlignVertical: 'center',
     color: '#000000',
