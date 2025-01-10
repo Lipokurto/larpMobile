@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import scroll from '../../assets/main-menu-icons/scroll.png';
-import logo from '../../assets/logo/logo_EMPTY_BACK_2024.png';
+import logo from '../../assets/logo/logo_EMPTY_BACK_2025.png';
 
 import { resolvePath } from '../../utils/resolve-path';
 import WoodBG from '../../utils/woodBG';
