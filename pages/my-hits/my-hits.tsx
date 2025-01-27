@@ -171,6 +171,11 @@ export default function MyHits(): JSX.Element {
           return;
         }
 
+        if (answer && hasBack) {
+          setIsVisibleModal(false);
+          return;
+        }
+
         setHasBack(answer);
 
         const correctArmor = currentArmor.map(p => {
@@ -189,7 +194,7 @@ export default function MyHits(): JSX.Element {
 
       setIsVisibleModal(false);
     },
-    [currentArmor, toast],
+    [currentArmor, hasBack, toast],
   );
 
   const renderAskButton = React.useCallback(
