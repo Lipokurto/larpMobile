@@ -45,7 +45,6 @@ export default function MyHits(): JSX.Element {
   const [hits, setHits] = React.useState<number>(1);
   const [currentLimb, setCurrentLimb] = React.useState<string>('');
   const [hasHelmet, setHasHelmet] = React.useState<boolean>(false);
-  const [hasBack, setHasBack] = React.useState<boolean>(false);
 
   const toast = useToast();
 
@@ -57,7 +56,6 @@ export default function MyHits(): JSX.Element {
       totalHits !== hits &&
       totalHits > 1 &&
       !hasHelmet &&
-      currentLimb !== 'back' &&
       currentLimb !== 'head'
     ) {
       toast.show('Без шлема хиты за броню не считаются - наденьте шлем', {
@@ -69,15 +67,7 @@ export default function MyHits(): JSX.Element {
     }
 
     setHits(hasHelmet ? Math.round(totalHits) : 1);
-  }, [
-    hits,
-    currentArmor,
-    hasHelmet,
-    hasBack,
-    toast,
-    currentLimb,
-    isVisibleModal,
-  ]);
+  }, [hits, currentArmor, hasHelmet, toast, currentLimb, isVisibleModal]);
 
   const renderHealth = React.useMemo(() => {
     const shields = Array(Math.round(hits)).fill(resolvePath(shield));
@@ -115,17 +105,13 @@ export default function MyHits(): JSX.Element {
 
   const calculateArmor = React.useCallback(
     (armorClass: number) => {
-      if (currentLimb === 'torso') {
-        if (hasBack) {
-          return armorClass;
-        } else {
-          return armorClass / 2;
-        }
+      if (currentLimb === 'torso' || currentLimb === 'back') {
+        return armorClass / 2;
       }
 
       return armorClass / 4;
     },
-    [hasBack, currentLimb],
+    [currentLimb],
   );
 
   const handleSetArmor = React.useCallback(
@@ -152,7 +138,6 @@ export default function MyHits(): JSX.Element {
     setCurrentArmor(defaultArmor);
     setHits(1);
     setHasHelmet(false);
-    setHasBack(false);
   }, []);
 
   const helmBackChange = React.useCallback(
@@ -171,12 +156,10 @@ export default function MyHits(): JSX.Element {
           return;
         }
 
-        if (answer && hasBack) {
+        if (answer) {
           setIsVisibleModal(false);
           return;
         }
-
-        setHasBack(answer);
 
         const correctArmor = currentArmor.map(p => {
           if (p.limb === 'torso') {
@@ -194,7 +177,7 @@ export default function MyHits(): JSX.Element {
 
       setIsVisibleModal(false);
     },
-    [currentArmor, hasBack, toast],
+    [currentArmor, toast],
   );
 
   const renderAskButton = React.useCallback(
@@ -232,16 +215,6 @@ export default function MyHits(): JSX.Element {
       );
     }
 
-    if (currentLimb === 'back') {
-      return (
-        <View style={style.modalButtons}>
-          {renderAskButton('ДА')}
-
-          {renderAskButton('НЕТ')}
-        </View>
-      );
-    }
-
     return (
       <View style={style.itemsListContainer}>
         {armor.map(p => {
@@ -264,10 +237,6 @@ export default function MyHits(): JSX.Element {
       return 'Одеть шлем?';
     }
 
-    if (currentLimb === 'back') {
-      return 'Спина закрыта доспехом?';
-    }
-
     return currentArmor.find(p => p.limb === currentLimb)?.name;
   }, [currentArmor, currentLimb]);
 
@@ -276,7 +245,7 @@ export default function MyHits(): JSX.Element {
   }, []);
 
   const renderModal = React.useMemo(() => {
-    const isNotHeadOrBack = currentLimb !== 'head' && currentLimb !== 'back';
+    const isNotHead = currentLimb !== 'head';
 
     return (
       <Modal visible={isVisibleModal} animationType="slide" transparent>
@@ -294,7 +263,7 @@ export default function MyHits(): JSX.Element {
 
             {modalInternals}
 
-            {isNotHeadOrBack && (
+            {isNotHead && (
               <TouchableOpacity
                 onPress={() => handleCloseModal()}
                 style={{ width: '100%', alignItems: 'center' }}>
@@ -424,7 +393,7 @@ export default function MyHits(): JSX.Element {
               style={style.item}>
               <ItemContainer
                 name={currentArmor[5].name}
-                img={hasBack ? currentArmor[2].img : resolvePath(none)}
+                img={currentArmor[5].img}
               />
             </TouchableOpacity>
 
