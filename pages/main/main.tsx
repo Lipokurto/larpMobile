@@ -16,6 +16,7 @@ import logo from '../../assets/logo/logo_EMPTY_BACK_2025.png';
 
 import { resolvePath } from '../../utils/resolve-path';
 import WoodBG from '../../utils/woodBG';
+import { RulesMenu } from './rules-menu';
 
 type Service = {
   name: string;
@@ -53,7 +54,7 @@ export default function Main({ navigation }: any): JSX.Element {
 
   return (
     <WoodBG>
-      <View>
+      <View style={style.container}>
         <TouchableOpacity onPress={openLink}>
           <Image
             style={style.logo}
@@ -82,12 +83,19 @@ export default function Main({ navigation }: any): JSX.Element {
             );
           }}
         />
+
+        <RulesMenu />
       </View>
     </WoodBG>
   );
 }
 
 const style = StyleSheet.create({
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    height: '100%',
+  },
   header: {
     marginBottom: 30,
   },
